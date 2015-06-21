@@ -1,6 +1,6 @@
 /**
  * Graphing sketch.
- *  Reads info from 6 inputs and graphs them in 6 different colors in one window.
+ * Reads info from 6 inputs and graphs them in 6 different colors in one window.
  * 
  * This program takes ASCII-encoded strings
  * from the serial port at 9600 baud and graphs them. It expects values in the
@@ -17,6 +17,9 @@ Serial port;
 
 // x position of graph
 int xPos = 1;
+
+// pause state
+boolean paused = false;
 
 // variables for displaying
 float[][] metaValues = {
@@ -36,16 +39,16 @@ void setup() {
   size(800, 600);
   
   // create new window for metadata
-  PFrame f = new PFrame(500, 300);
+  PFrame f = new PFrame(200, 400);
   
   // distinguish frames
   frame.setTitle("Graphical analysis");
   f.setTitle("MetaData");
 
   // List all the available serial ports
-  // println(Serial.list());
+   println(Serial.list());
   
-  port = new Serial(this, "/dev/ttyUSB0", 9600);
+  port = new Serial(this, "/dev/ttyUSB1", 9600);
   // don't generate a serialEvent() unless you get a newline character:
   port.bufferUntil('\n');
   // set inital background:
@@ -83,7 +86,7 @@ public class SecondApplet extends PApplet {
       // get color of current channel
       c = getColor(i);
       fill(c[0], c[1], c[2]);
-      
+
       // display minimum, current and maximum values
       text(metaValues[0][i], 10, (20 + (45 * i)));
       text(" >>  " + metaValues[2][i], 10, (35 + (45 * i)));
@@ -93,6 +96,12 @@ public class SecondApplet extends PApplet {
 }
 
 void serialEvent(Serial myPort) {
+  
+  // if paused, just return
+  if (paused) {
+    return;
+  }
+  
   // get the ASCII string:
   String inString = myPort.readStringUntil('\n');
 
@@ -117,7 +126,6 @@ void serialEvent(Serial myPort) {
       //draw the lines
       stroke(c[0], c[1], c[2]);
       int bottom = (height / 6) * (i + 1);
-      println(bottom);
       line(xPos, bottom, xPos, bottom - inByte);
     }
 
@@ -129,6 +137,28 @@ void serialEvent(Serial myPort) {
     else {
       // increment the horizontal position:
       xPos++;
+    }
+  }
+}
+
+void keyPressed() {
+  // if space is pressed, toggle pause state
+  if (keyCode == 32) {
+    paused = !paused;
+  }
+  println(keyCode);
+ 
+  // if number 1-6 is pressed, reset corresponding min/max values
+  if (keyCode >= 49 && keyCode <= 54) {
+    metaValues[0][keyCode - 49] = 9999999;
+    metaValues[1][keyCode - 49] = 0;
+  }
+  
+  // if backspace in pressed, reset all min/max values
+  if (keyCode == 8) {
+    for (int i = 0; i < 6; i++) {
+      metaValues[0][i] = 9999999;
+      metaValues[1][i] = 0;
     }
   }
 }
