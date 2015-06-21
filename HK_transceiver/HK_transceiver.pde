@@ -46,7 +46,7 @@ void setup() {
   f.setTitle("MetaData");
 
   // List all the available serial ports
-   println(Serial.list());
+  // println(Serial.list());
   
   port = new Serial(this, "/dev/ttyUSB1", 9600);
   // don't generate a serialEvent() unless you get a newline character:
@@ -146,7 +146,6 @@ void keyPressed() {
   if (keyCode == 32) {
     paused = !paused;
   }
-  println(keyCode);
  
   // if number 1-6 is pressed, reset corresponding min/max values
   if (keyCode >= 49 && keyCode <= 54) {
