@@ -1,6 +1,7 @@
 /**
  * Graphing sketch.
- * Reads info from 6 inputs and graphs them in 6 different colors in one window.
+ * Reads info from 6 inputs and graphs them in 6 different colors 
+ * (colors represent current wire colors) in one window.
  * 
  * This program takes ASCII-encoded strings
  * from the serial port at 9600 baud and graphs them. It expects values in the
