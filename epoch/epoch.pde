@@ -15,7 +15,7 @@ public void setup() {
   fNum = createFont("Courier", 250);
   fText = createFont("Courier", 32);
   
-  testing();
+  //testing();
   
   background(0);
 }
@@ -79,7 +79,7 @@ public void drawFireworks() {
     
     if (f.checkDetonation()) {
       f.detonate(sparkles);
-      fireworks.remove(f);  
+      fireworks.remove(f);
     }
   }
 }
