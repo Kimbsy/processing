@@ -31,4 +31,13 @@ class Sparkle extends Sprite {
   public void detonate(ArrayList<Sparkle> sparkles) {
     // no-op
   }
+
+  public boolean finishedDetonation() {
+    fade();
+    return (age > SPARKLE_MAX_AGE + 50);
+  }
+
+  public void fade() {
+    c = color(red(c) - 5, green(c) - 5, blue(c) - 5);
+  }
 }

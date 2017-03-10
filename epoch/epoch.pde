@@ -92,7 +92,9 @@ public void drawSparkles() {
     
     if (s.checkDetonation()) {
       s.detonate(sparkles);
-      sparkles.remove(s);
+      if (s.finishedDetonation()) {
+        sparkles.remove(s);
+      }
     }
   }
 }
